@@ -13,7 +13,7 @@ Written by: BitingTheDust ; https://v3rmillion.net/member.php?action=profile&uid
 ]]
 --Settings:
 local ScriptStarted = false
-local Keybind = "E" --Set to whatever you want, has to be the name of a KeyCode Enum.
+local Keybind = "X" --Set to whatever you want, has to be the name of a KeyCode Enum.
 local Transparency = true --Will make you slightly transparent when you are invisible. No reason to disable.
 local NoClip = false --Will make your fake character no clip.
  
