@@ -24,8 +24,8 @@ function startswith(text, prefix)
 end
 
 --- PAGES MENU
-local troll_tab = main_gui.New({
-	Title = "troll scripts"
+local car_tab = main_gui.New({
+	Title = "Car mods"
 }) 
 
 local users_tab = main_gui.New({
@@ -97,8 +97,9 @@ local teleport_script = users_tab.Dropdown({
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-32, 18, 661)
             elseif Value == "Sommet" then
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2405, 761, 784)
-            end
-            
+			elseif Value == "UnderMap" then
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(615.089599609375, -45.189701080322266, 2703.698974609375)
+            end         
 	end,
     Options = {
 		"Beach",
@@ -108,7 +109,8 @@ local teleport_script = users_tab.Dropdown({
         "Boat",
         "Hospital",
         "School",
-        "Sommet"
+        "Sommet",
+		"UnderMap"
 	},
 	Menu = {
 		Information = function(self)
@@ -182,21 +184,6 @@ local stoprain_script = misc_tab.Button({
 	}
 })
 
-local changecarcolor_script = misc_tab.ColorPicker({
-	Text = "Car colour",
-	Default = Color3.fromRGB(0,0,0),
-	Callback = function(Value)
-        game:GetService("ReplicatedStorage").Packages._Index["sleitnick_knit@1.4.4"].knit.Services.VehicleService.RE.VehicleRequest:FireServer("SetColor", Color3.new(Value.R * 255, Value.G * 255, Value.B * 255))
-	end,
-	Menu = {
-		Information = function(self)
-			main_gui.Banner({
-				Text = "This changes the color of your car."
-			})
-		end
-	}
-})
-
 local invloader_script = misc_tab.Button({
 	Text = "Load Invisible script",
 	Callback = function()
@@ -209,8 +196,30 @@ local invloader_script = misc_tab.Button({
 	end
 })
 
---- SCRIPTS troll
-local hornspam_script = troll_tab.Toggle({
+--- SCRIPTS car
+local rainbow_car = car_tab.Toggle({
+	Text = "Rainbow car",
+	Callback = function(Value)
+        _G.toggle = Value
+		local remote = game:GetService("ReplicatedStorage").Packages._Index["sleitnick_knit@1.4.4"].knit.Services.VehicleService.RE.VehicleRequest
+        while _G.toggle do
+            remote:FireServer("SetColor", Color3.new(255, 250.27, 0.17134))
+    		wait(0.2)
+    		remote:FireServer("SetColor", Color3.new(0.0363553, 1, 5.96046e-08))
+			wait(0.2)
+			remote:FireServer("SetColor", Color3.new(1, 0.092525, 5.96046e-08))
+			wait(0.2)
+			remote:FireServer("SetColor", Color3.new(1, 0, 0.749503))
+			wait(0.2)
+			remote:FireServer("SetColor", Color3.new(0.136625, 0.000607252, 1))
+			wait(0.2)
+			remote:FireServer("SetColor", Color3.new(0, 0.942523, 1))
+        end
+	end,
+	Enabled = false
+})
+
+local hornspam_script = car_tab.Toggle({
 	Text = "Car horn Spammer",
 	Callback = function(Value)
         _G.toggle = Value
@@ -222,7 +231,7 @@ local hornspam_script = troll_tab.Toggle({
 	Enabled = false
 })
 
-local headlightspam_script = troll_tab.Toggle({
+local headlightspam_script = car_tab.Toggle({
 	Text = "Car headlight Spammer",
 	Callback = function(Value)
         _G.toggle = Value
@@ -232,6 +241,21 @@ local headlightspam_script = troll_tab.Toggle({
         end
 	end,
 	Enabled = false
+})
+
+local changecarcolor_script = car_tab.ColorPicker({
+	Text = "Car colour",
+	Default = Color3.fromRGB(0,0,0),
+	Callback = function(Value)
+        game:GetService("ReplicatedStorage").Packages._Index["sleitnick_knit@1.4.4"].knit.Services.VehicleService.RE.VehicleRequest:FireServer("SetColor", Color3.new(Value.R * 255, Value.G * 255, Value.B * 255))
+	end,
+	Menu = {
+		Information = function(self)
+			main_gui.Banner({
+				Text = "This changes the color of your car."
+			})
+		end
+	}
 })
 
 --- SCRIPTS Credits
