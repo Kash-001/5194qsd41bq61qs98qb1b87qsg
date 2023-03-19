@@ -159,10 +159,9 @@ local stoprain_script = misc_tab.Button({
 	Text = "Stop rain",
 	Callback = function()
         if #game:GetService("Workspace").Terrain:GetChildren() > 3 then
-            game:GetService("Workspace").Camera["__RainEmitter"]:Destroy()
-            game:GetService("SoundService")["__RainSoundGroup"]:Destroy()
-            game:GetService("Players").ihate01LGBT.PlayerScripts.Modules.Weather.Weathers.Rain:Destroy()
-            game:GetService("Players").ihate01LGBT.PlayerScripts.Modules.Weather.Util.RainEffect:Destroy()
+            game:GetService("Workspace").Camera["__RainEmitter"].RainTopDown.Texture = 0
+            game:GetService("Workspace").Camera["__RainEmitter"].RainStraight.Texture = 0
+            game:GetService("SoundService")["__RainSoundGroup"].Volume = 0
             local children = game:GetService("Workspace").Terrain:GetChildren() 
             for i = 1, #children do
                 local child = children[i]
