@@ -17,10 +17,35 @@ local main_gui = Material.Load({
 
 --- VARIABLES
 _G.security = 0
+_G.tool = "80sPhone"
+_G.spamtoggle = false
 
 --- FONCTIONS
 function startswith(text, prefix)
     return text:find(prefix, 1, true) == 1
+end
+
+function droptool(tool)
+    --add tool to inv
+    game:GetService("ReplicatedStorage").Packages._Index["sleitnick_knit@1.4.4"].knit.Services.ToolService.RF.ToggleEquipTool:InvokeServer(tool)
+    wait()
+    --equip all tools
+    for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+        if v:IsA("Tool") then
+            v.Parent = game.Players.LocalPlayer.Character
+        end
+    end
+    --drop all tools
+    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+        if v:IsA("Tool") then
+            v.Parent = game.Workspace
+        end
+    end
+    wait()
+    --delete tool from Backpack
+    game:GetService("ReplicatedStorage").Packages._Index["sleitnick_knit@1.4.4"].knit.Services.ToolService.RF.ToggleEquipTool:InvokeServer(tool)
+    wait(0.1)
+    game:GetService("ReplicatedStorage").Packages._Index["sleitnick_knit@1.4.4"].knit.Services.ToolService.RF.ToggleEquipTool:InvokeServer(tool)
 end
 
 --- PAGES MENU
@@ -30,6 +55,10 @@ local car_tab = main_gui.New({
 
 local users_tab = main_gui.New({
 	Title = "Users interactions"
+})
+
+local spamdrop_tab = main_gui.New({
+	Title = "Spam tools"
 })
 
 local misc_tab = main_gui.New({
@@ -196,6 +225,38 @@ local invloader_script = misc_tab.Button({
 	end
 })
 
+--- SPAM DROP SCRIPT
+local spamtools_script = spamdrop_tab.Button({
+	Text = "Click to show equiped tool name",
+	Callback = function()
+	    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+            if v:IsA("Tool") then
+                game:GetService("StarterGui"):SetCore("SendNotification",{Title='Tool name',Text=v.Name, Duration=3})
+            end
+        end
+	end
+})
+
+local setspamtool_script = spamdrop_tab.TextField({
+	Text = "Enter tool name to spam, default is phone",
+	Callback = function(Value)
+	    if Value == "" then
+            _G.tool = "80sPhone"
+        else
+            _G.tool = Value
+        end
+	end
+})
+
+
+local enablespam_script = spamdrop_tab.Toggle({
+	Text = "Toolspam, keybind : 'R'",
+	Callback = function(Value)
+        _G.spamtoggle = Value
+	end,
+	Enabled = false
+})
+
 --- SCRIPTS car
 local rainbow_car = car_tab.Toggle({
 	Text = "Rainbow car",
@@ -260,9 +321,23 @@ local changecarcolor_script = car_tab.ColorPicker({
 
 --- SCRIPTS Credits
 local credits_krx = credits_tab.Button({
-	Text = "Scripting : Rapido#1209"
+	Text = "Scripting : [dc > kaisenn8#1209] || [tlg > Kash_005]"
 })
 
 local credits_lib = credits_tab.Button({
-	Text = "UI Library : https://github.com/Kinlei"
+	Text = "UI Library : Kinlei (On Github)"
 })
+
+local credits_invscript = credits_tab.Button({
+    Text = "Invisible Script : BitingTheDust (On Vermillion)"
+})
+
+
+--coroutine spam tool
+game.Players.LocalPlayer:GetMouse().KeyDown:Connect(function(KeyPressed)
+    if KeyPressed == "r" then
+        if _G.spamtoggle == true then
+            droptool(_G.tool)
+        end
+    end
+end)
