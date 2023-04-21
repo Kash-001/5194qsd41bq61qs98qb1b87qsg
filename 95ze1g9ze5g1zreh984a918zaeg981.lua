@@ -342,3 +342,10 @@ game.Players.LocalPlayer:GetMouse().KeyDown:Connect(function(KeyPressed)
         end
     end
 end)
+
+--coroutine chatspy Script
+game:GetService("CoreGui").ExperienceChat.appLayout.chatWindow.scrollingView.bottomLockedScrollView.RCTScrollView.RCTScrollContentView.ChildAdded:Connect(function(child)
+    if startswith(child.Text, '[') then
+        print('SPY : ',string.gsub(child.Text,'<.+>',''))
+    end
+end)
