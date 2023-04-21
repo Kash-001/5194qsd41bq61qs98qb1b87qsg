@@ -197,7 +197,8 @@ local stoprain_script = misc_tab.Button({
             for i = 1, #children do
                 local child = children[i]
                 if startswith(child.Name, "__") then
-                    child:Destroy()
+                    subchild = child:GetChildren()
+                    subchild[1].Texture = 0
                 end
             end
         else
